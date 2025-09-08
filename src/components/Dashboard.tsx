@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { LogOut, Target, Heart, Trophy, DollarSign, TrendingUp, Book, Calendar, Church, Camera } from 'lucide-react';
 import DayCounter from './DayCounter';
+import VisionGoalsPage from './pages/VisionGoalsPage';
+import MemoriesPage from './pages/MemoriesPage';
 import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface DashboardProps {
@@ -94,81 +96,11 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             </TabsList>
 
             <TabsContent value="vision" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">1-Year Goals</CardTitle>
-                    <CardDescription>Our immediate focus</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Set and track your 1-year vision together</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">3-Year Goals</CardTitle>
-                    <CardDescription>Building momentum</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Plan your medium-term objectives</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">5-Year Goals</CardTitle>
-                    <CardDescription>Major milestones</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Define your big picture vision</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">10-Year Legacy</CardTitle>
-                    <CardDescription>Our ultimate vision</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Dream big for your future together</p>
-                  </CardContent>
-                </Card>
-              </div>
+              <VisionGoalsPage />
             </TabsContent>
 
             <TabsContent value="memories" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Our Story Timeline</CardTitle>
-                    <CardDescription>Milestones in order</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Document your journey together</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Love Letters</CardTitle>
-                    <CardDescription>Messages of love</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Write and share romantic messages</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="glass-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Photo Memories</CardTitle>
-                    <CardDescription>Capture special moments</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">Upload and organize your photos</p>
-                  </CardContent>
-                </Card>
-              </div>
+              <MemoriesPage />
             </TabsContent>
 
             {/* Add other tab contents */}
