@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, Crown } from "lucide-react";
-import coupleImage from "@/assets/couple-hugging.jpg";
+import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface LoginPageProps {
   onLogin: (user: 'richmond' | 'edwina') => void;

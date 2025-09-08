@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { LogOut, Target, Heart, Trophy, DollarSign, TrendingUp, Book, Calendar, Church, Camera } from 'lucide-react';
 import DayCounter from './DayCounter';
-import coupleImage from "@/assets/couple-hugging.jpg";
+import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface DashboardProps {
   user: 'richmond' | 'edwina';
