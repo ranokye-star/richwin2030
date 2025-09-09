@@ -9,6 +9,8 @@ import MemoriesPage from './pages/MemoriesPage';
 import AchievementsPage from './pages/AchievementsPage';
 import FinancePage from './pages/FinancePage';
 import GrowthPage from './pages/GrowthPage';
+import FaithPage from './pages/FaithPage';
+import ReadingPage from './pages/ReadingPage';
 import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface DashboardProps {
@@ -120,27 +122,11 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             </TabsContent>
 
             <TabsContent value="faith">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Faith & Spiritual Growth</CardTitle>
-                  <CardDescription>Grow together spiritually</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Bible reading, prayers, and spiritual goals</p>
-                </CardContent>
-              </Card>
+              <FaithPage />
             </TabsContent>
 
             <TabsContent value="reading">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Reading & Learning</CardTitle>
-                  <CardDescription>Expand your minds together</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Track books and learning goals</p>
-                </CardContent>
-              </Card>
+              <ReadingPage />
             </TabsContent>
 
             <TabsContent value="checkins">
@@ -150,7 +136,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
                   <CardDescription>Regular relationship maintenance</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">Weekly, monthly, and annual reviews</p>
+                  <p className="text-muted-foreground">Weekly, monthly, and annual reviews - Coming Soon!</p>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -162,7 +148,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
                   <CardDescription>Plan for the future</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">Vision boards and future planning</p>
+                  <p className="text-muted-foreground">Vision boards and future planning - Coming Soon!</p>
                 </CardContent>
               </Card>
             </TabsContent>

@@ -115,10 +115,10 @@ export default function GoalForm({ goal, onSubmit, onCancel }: GoalFormProps) {
                   <SelectValue placeholder="Select timeframe" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1-year">1 Year</SelectItem>
-                  <SelectItem value="3-year">3 Years</SelectItem>
-                  <SelectItem value="5-year">5 Years</SelectItem>
-                  <SelectItem value="10-year">10 Years</SelectItem>
+                  <SelectItem value="1 Year">1 Year</SelectItem>
+                  <SelectItem value="3 Years">3 Years</SelectItem>
+                  <SelectItem value="5 Years">5 Years</SelectItem>
+                  <SelectItem value="10 Years">10 Years</SelectItem>
                 </SelectContent>
               </Select>
             </div>
