@@ -6,6 +6,9 @@ import { LogOut, Target, Heart, Trophy, DollarSign, TrendingUp, Book, Calendar, 
 import DayCounter from './DayCounter';
 import VisionGoalsPage from './pages/VisionGoalsPage';
 import MemoriesPage from './pages/MemoriesPage';
+import AchievementsPage from './pages/AchievementsPage';
+import FinancePage from './pages/FinancePage';
+import GrowthPage from './pages/GrowthPage';
 import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface DashboardProps {
@@ -105,39 +108,15 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 
             {/* Add other tab contents */}
             <TabsContent value="achievements">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Achievements Tracker</CardTitle>
-                  <CardDescription>Celebrate your wins together</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Track your relationship, personal, and joint achievements</p>
-                </CardContent>
-              </Card>
+              <AchievementsPage />
             </TabsContent>
 
             <TabsContent value="finance">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Finance & Wealth Vision</CardTitle>
-                  <CardDescription>Build your financial future</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Manage savings, investments, and business plans</p>
-                </CardContent>
-              </Card>
+              <FinancePage />
             </TabsContent>
 
             <TabsContent value="growth">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Personal Growth</CardTitle>
-                  <CardDescription>Track your development</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Monitor growth in love, career, finance, and more</p>
-                </CardContent>
-              </Card>
+              <GrowthPage />
             </TabsContent>
 
             <TabsContent value="faith">
