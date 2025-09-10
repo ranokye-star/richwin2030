@@ -11,11 +11,11 @@ export default function DayCounter() {
 
   useEffect(() => {
     const updateTime = () => {
-      const startDate = new Date('2024-08-08T00:00:00'); // Exactly 32 days ago base
+      const startDate = new Date('2025-08-08T00:00:00');
       const now = new Date();
       const timeDiff = now.getTime() - startDate.getTime();
       
-      const days = 32; // Fixed at 32 days
+      const days = Math.floor(timeDiff / (1000 * 3600 * 24));
       const hours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
       const minutes = Math.floor((timeDiff % (1000 * 3600)) / (1000 * 60));
       const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
