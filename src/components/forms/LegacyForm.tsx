@@ -85,12 +85,9 @@ export default function LegacyForm({ plan, onSubmit, onCancel }: LegacyFormProps
                   <SelectValue placeholder="Select plan type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="family">Family</SelectItem>
-                  <SelectItem value="financial">Financial</SelectItem>
-                  <SelectItem value="property">Property</SelectItem>
-                  <SelectItem value="business">Business</SelectItem>
-                  <SelectItem value="charitable">Charitable</SelectItem>
-                  <SelectItem value="personal">Personal</SelectItem>
+                  <SelectItem value="legacy">Legacy</SelectItem>
+                  <SelectItem value="future">Future</SelectItem>
+                  <SelectItem value="dream">Dream</SelectItem>
                 </SelectContent>
               </Select>
             </div>
