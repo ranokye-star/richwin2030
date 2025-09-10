@@ -11,6 +11,8 @@ import FinancePage from './pages/FinancePage';
 import GrowthPage from './pages/GrowthPage';
 import FaithPage from './pages/FaithPage';
 import ReadingPage from './pages/ReadingPage';
+import CheckInsPage from './pages/CheckInsPage';
+import LegacyPage from './pages/LegacyPage';
 import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface DashboardProps {
@@ -130,27 +132,11 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             </TabsContent>
 
             <TabsContent value="checkins">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Check-ins & Reviews</CardTitle>
-                  <CardDescription>Regular relationship maintenance</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Weekly, monthly, and annual reviews - Coming Soon!</p>
-                </CardContent>
-              </Card>
+              <CheckInsPage />
             </TabsContent>
 
             <TabsContent value="legacy">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle>Legacy & Future Plans</CardTitle>
-                  <CardDescription>Plan for the future</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Vision boards and future planning - Coming Soon!</p>
-                </CardContent>
-              </Card>
+              <LegacyPage />
             </TabsContent>
           </Tabs>
         </div>
