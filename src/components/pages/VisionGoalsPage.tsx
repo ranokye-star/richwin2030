@@ -11,13 +11,13 @@ export default function VisionGoalsPage() {
   const { goals, loading, addGoal, updateGoal, deleteGoal } = useGoals();
   const [showForm, setShowForm] = useState(false);
   const [editingGoal, setEditingGoal] = useState<Goal | null>(null);
-  const [selectedTimeframe, setSelectedTimeframe] = useState<string>('1 Year');
+  const [selectedTimeframe, setSelectedTimeframe] = useState<string>('1-Year');
 
   const timeframes = [
-    { value: '1 Year', label: '1-Year Goals', color: 'bg-green-500' },
-    { value: '3 Years', label: '3-Year Goals', color: 'bg-blue-500' },
-    { value: '5 Years', label: '5-Year Goals', color: 'bg-purple-500' },
-    { value: '10 Years', label: '10-Year Legacy', color: 'bg-gold' }
+    { value: '1-Year', label: '1-Year Goals', color: 'bg-green-500' },
+    { value: '3-Year', label: '3-Year Goals', color: 'bg-blue-500' },
+    { value: '5-Year', label: '5-Year Goals', color: 'bg-purple-500' },
+    { value: '10-Year', label: '10-Year Legacy', color: 'bg-gold' }
   ];
 
   const filteredGoals = goals.filter(goal => goal.timeframe === selectedTimeframe);
