@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, BookOpen, Clock, Users, GraduationCap, Save, X } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
@@ -24,14 +25,14 @@ const timetableData = [
   {
     day: 'MONDAY',
     courses: [
-      { course: 'Tools & Methods for Teaching Nursing', time: '10:00AM-12:00PM', lecturer: '' },
-      { course: 'Curriculum Development in Nursing Education', time: '1:00PM-3:00PM', lecturer: '' }
+      { course: 'Tools & Methods for Teaching Nursing', time: '10:00AM-12:00PM', lecturer: 'MRS. PEASAH' },
+      { course: 'Curriculum Development in Nursing Education', time: '1:00PM-3:00PM', lecturer: 'MR. VINCENT AKORLI' }
     ]
   },
   {
     day: 'TUESDAY',
     courses: [
-      { course: 'Project Work I', time: '8:00AM-10:00AM', lecturer: '' },
+      { course: 'Project Work I', time: '8:00AM-10:00AM', lecturer: 'MRS. LEONORA OFORI-OTENG' },
       { course: 'MEETING WITH PROJECT WORK SUPERVISORS', time: '', lecturer: '' }
     ]
   },
@@ -39,13 +40,13 @@ const timetableData = [
     day: 'WEDNESDAY',
     courses: [
       { course: 'Biostatistics', time: '11:00AM-1:00PM', lecturer: 'MR. ADJOLOLO' },
-      { course: 'Nursing Seminar', time: '2:00PM-4:00PM', lecturer: '' }
+      { course: 'Nursing Seminar', time: '2:00PM-4:00PM', lecturer: 'Dr. JOAN AGYEMAN' }
     ]
   },
   {
     day: 'THURSDAY',
     courses: [
-      { course: 'Nursing Practical', time: '8:00AM-11:00AM', lecturer: '' }
+      { course: 'Nursing Practical', time: '8:00AM-11:00AM', lecturer: 'MR. OPOKU & MAD. ARABA' }
     ]
   },
   {
@@ -145,40 +146,61 @@ export default function AcademicsPage() {
           <CardDescription>Master of Nursing Education Program Schedule</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            {timetableData.map((dayData) => (
-              <div key={dayData.day} className="border border-border/20 rounded-lg p-4 glass-card">
-                <h3 className="font-semibold text-lg mb-3 text-primary">{dayData.day}</h3>
-                {dayData.courses.length > 0 ? (
-                  <div className="space-y-3">
-                    {dayData.courses.map((course, index) => (
-                      <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 bg-secondary/30 rounded-md">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <BookOpen className="h-4 w-4 text-primary" />
-                            <span className="font-medium">{course.course}</span>
-                          </div>
-                          {course.time && (
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              <Clock className="h-3 w-3" />
-                              <span>{course.time}</span>
-                            </div>
-                          )}
-                          {course.lecturer && (
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              <Users className="h-3 w-3" />
-                              <span>{course.lecturer}</span>
-                            </div>
-                          )}
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-semibold text-primary">DAY</TableHead>
+                  <TableHead className="font-semibold text-primary">COURSE</TableHead>
+                  <TableHead className="font-semibold text-primary">TIME</TableHead>
+                  <TableHead className="font-semibold text-primary">LECTURER</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {timetableData.map((dayData) => {
+                  if (dayData.courses.length === 0) {
+                    return (
+                      <TableRow key={dayData.day}>
+                        <TableCell className="font-medium text-primary">{dayData.day}</TableCell>
+                        <TableCell className="text-muted-foreground italic">No classes scheduled</TableCell>
+                        <TableCell>-</TableCell>
+                        <TableCell>-</TableCell>
+                      </TableRow>
+                    );
+                  }
+                  
+                  return dayData.courses.map((course, index) => (
+                    <TableRow key={`${dayData.day}-${index}`}>
+                      <TableCell className={`font-medium text-primary ${index === 0 ? '' : 'border-t-0'}`}>
+                        {index === 0 ? dayData.day : ''}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
+                          <span className="font-medium">{course.course}</span>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground italic">No classes scheduled</p>
-                )}
-              </div>
-            ))}
+                      </TableCell>
+                      <TableCell>
+                        {course.time && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-muted-foreground" />
+                            <span>{course.time}</span>
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {course.lecturer && (
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-muted-foreground" />
+                            <span className="font-medium">{course.lecturer}</span>
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ));
+                })}
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>
