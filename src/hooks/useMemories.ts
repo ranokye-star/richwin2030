@@ -125,6 +125,129 @@ export function useMemories() {
     }
   };
 
+  const updateLoveLetter = async (id: string, updates: Partial<LoveLetter>) => {
+    try {
+      const { data, error } = await supabase
+        .from('love_letters')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      setLoveLetters(prev => prev.map(letter => letter.id === id ? data : letter));
+      toast({
+        title: "Success",
+        description: "Love letter updated successfully"
+      });
+      return data;
+    } catch (error) {
+      console.error('Error updating love letter:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update love letter",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const deleteLoveLetter = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('love_letters')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      setLoveLetters(prev => prev.filter(letter => letter.id !== id));
+      toast({
+        title: "Success",
+        description: "Love letter deleted successfully"
+      });
+    } catch (error) {
+      console.error('Error deleting love letter:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete love letter",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const addJournalEntry = async (entry: Omit<JournalEntry, 'id' | 'created_at' | 'updated_at'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .insert([entry])
+        .select()
+        .single();
+
+      if (error) throw error;
+      setJournalEntries(prev => [data, ...prev]);
+      toast({
+        title: "Success",
+        description: "Journal entry added successfully"
+      });
+      return data;
+    } catch (error) {
+      console.error('Error adding journal entry:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add journal entry",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const updateJournalEntry = async (id: string, updates: Partial<JournalEntry>) => {
+    try {
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      setJournalEntries(prev => prev.map(entry => entry.id === id ? data : entry));
+      toast({
+        title: "Success",
+        description: "Journal entry updated successfully"
+      });
+      return data;
+    } catch (error) {
+      console.error('Error updating journal entry:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update journal entry",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const deleteJournalEntry = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('journal_entries')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      setJournalEntries(prev => prev.filter(entry => entry.id !== id));
+      toast({
+        title: "Success",
+        description: "Journal entry deleted successfully"
+      });
+    } catch (error) {
+      console.error('Error deleting journal entry:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete journal entry",
+        variant: "destructive"
+      });
+    }
+  };
+
   const updateMemory = async (id: string, updates: Partial<Memory>) => {
     try {
       const { data, error } = await supabase
@@ -189,8 +312,13 @@ export function useMemories() {
     loading,
     addMemory,
     addLoveLetter,
+    addJournalEntry,
     updateMemory,
+    updateLoveLetter,
+    updateJournalEntry,
     deleteMemory,
+    deleteLoveLetter,
+    deleteJournalEntry,
     refetch: fetchMemories
   };
 }
