@@ -143,7 +143,7 @@ export default function AcademicsPage() {
             <GraduationCap className="h-6 w-6" />
             Edwina's Study Timetable
           </CardTitle>
-          <CardDescription>Master of Nursing Education Program Schedule</CardDescription>
+          <CardDescription>Nursing Degree Program Schedule</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
