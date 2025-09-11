@@ -1,8 +1,7 @@
-import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { LogOut, Target, Heart, Trophy, DollarSign, TrendingUp, Book, Calendar, Church, Camera } from 'lucide-react';
+import { LogOut, Target, Heart, Trophy, DollarSign, TrendingUp, Book, Calendar, Church, Camera, GraduationCap } from 'lucide-react';
 import DayCounter from './DayCounter';
 import VisionGoalsPage from './pages/VisionGoalsPage';
 import MemoriesPage from './pages/MemoriesPage';
@@ -13,6 +12,7 @@ import FaithPage from './pages/FaithPage';
 import ReadingPage from './pages/ReadingPage';
 import CheckInsPage from './pages/CheckInsPage';
 import LegacyPage from './pages/LegacyPage';
+import AcademicsPage from './pages/AcademicsPage';
 import coupleImage from "/lovable-uploads/40acfd79-440a-4b3d-b571-00e1938ddc1c.png";
 
 interface DashboardProps {
@@ -22,6 +22,7 @@ interface DashboardProps {
 
 export default function Dashboard({ user, onLogout }: DashboardProps) {
   const userName = user === 'edwina' ? 'Queen Edwina' : 'King Richmond';
+  const [activeSection, setActiveSection] = useState('vision');
 
   return (
     <div 
@@ -62,83 +63,124 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto p-6">
-          <Tabs defaultValue="vision" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5 lg:grid-cols-9 gap-1 h-auto p-1 glass-card">
-              <TabsTrigger value="vision" className="flex flex-col items-center gap-1 p-3">
-                <Target className="h-4 w-4" />
-                <span className="text-xs">Vision</span>
-              </TabsTrigger>
-              <TabsTrigger value="memories" className="flex flex-col items-center gap-1 p-3">
-                <Camera className="h-4 w-4" />
-                <span className="text-xs">Memories</span>
-              </TabsTrigger>
-              <TabsTrigger value="achievements" className="flex flex-col items-center gap-1 p-3">
-                <Trophy className="h-4 w-4" />
-                <span className="text-xs">Wins</span>
-              </TabsTrigger>
-              <TabsTrigger value="finance" className="flex flex-col items-center gap-1 p-3">
-                <DollarSign className="h-4 w-4" />
-                <span className="text-xs">Finance</span>
-              </TabsTrigger>
-              <TabsTrigger value="growth" className="flex flex-col items-center gap-1 p-3">
-                <TrendingUp className="h-4 w-4" />
-                <span className="text-xs">Growth</span>
-              </TabsTrigger>
-              <TabsTrigger value="faith" className="flex flex-col items-center gap-1 p-3">
-                <Church className="h-4 w-4" />
-                <span className="text-xs">Faith</span>
-              </TabsTrigger>
-              <TabsTrigger value="reading" className="flex flex-col items-center gap-1 p-3">
-                <Book className="h-4 w-4" />
-                <span className="text-xs">Reading</span>
-              </TabsTrigger>
-              <TabsTrigger value="checkins" className="flex flex-col items-center gap-1 p-3">
-                <Calendar className="h-4 w-4" />
-                <span className="text-xs">Check-ins</span>
-              </TabsTrigger>
-              <TabsTrigger value="legacy" className="flex flex-col items-center gap-1 p-3">
-                <Heart className="h-4 w-4" />
-                <span className="text-xs">Legacy</span>
-              </TabsTrigger>
-            </TabsList>
+          {/* Circular Grid Navigation */}
+          <div className="grid grid-cols-5 gap-6 mb-8">
+            {/* Row 1 */}
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'vision' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('vision')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Target className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Vision</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="vision" className="space-y-6">
-              <VisionGoalsPage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'memories' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('memories')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Camera className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Memories</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="memories" className="space-y-6">
-              <MemoriesPage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'achievements' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('achievements')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Trophy className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Wins</span>
+              </CardContent>
+            </Card>
 
-            {/* Add other tab contents */}
-            <TabsContent value="achievements">
-              <AchievementsPage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'finance' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('finance')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <DollarSign className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Finance</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="finance">
-              <FinancePage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'academics' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('academics')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <GraduationCap className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Academics</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="growth">
-              <GrowthPage />
-            </TabsContent>
+            {/* Row 2 */}
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'growth' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('growth')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <TrendingUp className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Growth</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="faith">
-              <FaithPage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'faith' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('faith')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Church className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Faith</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="reading">
-              <ReadingPage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'reading' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('reading')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Book className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Reading</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="checkins">
-              <CheckInsPage />
-            </TabsContent>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'checkins' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('checkins')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Calendar className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Check-ins</span>
+              </CardContent>
+            </Card>
 
-            <TabsContent value="legacy">
-              <LegacyPage />
-            </TabsContent>
-          </Tabs>
+            <Card 
+              className={`glass-card cursor-pointer transition-all duration-300 hover:scale-105 ${activeSection === 'legacy' ? 'ring-2 ring-primary shadow-romantic' : ''}`}
+              onClick={() => setActiveSection('legacy')}
+            >
+              <CardContent className="flex flex-col items-center justify-center p-6 aspect-square rounded-full">
+                <Heart className="h-8 w-8 mb-2 text-primary" />
+                <span className="text-sm font-medium text-center">Legacy</span>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Content Area */}
+          <div className="space-y-6">
+            {activeSection === 'vision' && <VisionGoalsPage />}
+            {activeSection === 'memories' && <MemoriesPage />}
+            {activeSection === 'achievements' && <AchievementsPage />}
+            {activeSection === 'finance' && <FinancePage />}
+            {activeSection === 'academics' && <AcademicsPage />}
+            {activeSection === 'growth' && <GrowthPage />}
+            {activeSection === 'faith' && <FaithPage />}
+            {activeSection === 'reading' && <ReadingPage />}
+            {activeSection === 'checkins' && <CheckInsPage />}
+            {activeSection === 'legacy' && <LegacyPage />}
+          </div>
         </div>
       </div>
     </div>
