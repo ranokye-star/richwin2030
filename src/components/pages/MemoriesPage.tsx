@@ -5,16 +5,18 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Edit2, Trash2, Camera, Heart, Calendar, MapPin, BookOpen, User } from "lucide-react";
 import { useMemories } from "@/hooks/useMemories";
+import { useTimeline } from "@/hooks/useTimeline";
 import MemoryForm from "@/components/forms/MemoryForm";
 import LoveLetterForm from "@/components/forms/LoveLetterForm";
 import JournalEntryForm from "@/components/forms/JournalEntryForm";
+import TimelineForm from "@/components/forms/TimelineForm";
 
 export default function MemoriesPage() {
   const { 
     memories, 
     loveLetters, 
     journalEntries, 
-    loading, 
+    loading: memoriesLoading, 
     addMemory, 
     addLoveLetter, 
     addJournalEntry,
@@ -25,13 +27,25 @@ export default function MemoriesPage() {
     deleteLoveLetter,
     deleteJournalEntry
   } = useMemories();
+
+  const {
+    timelineEvents,
+    loading: timelineLoading,
+    addTimelineEvent,
+    updateTimelineEvent,
+    deleteTimelineEvent
+  } = useTimeline();
   
   const [showMemoryForm, setShowMemoryForm] = useState(false);
   const [showLetterForm, setShowLetterForm] = useState(false);
   const [showJournalForm, setShowJournalForm] = useState(false);
+  const [showTimelineForm, setShowTimelineForm] = useState(false);
   const [editingMemory, setEditingMemory] = useState(null);
   const [editingLetter, setEditingLetter] = useState(null);
   const [editingJournal, setEditingJournal] = useState(null);
+  const [editingTimeline, setEditingTimeline] = useState(null);
+
+  const loading = memoriesLoading || timelineLoading;
 
   const handleSubmitMemory = async (memoryData: any) => {
     if (editingMemory) {
@@ -81,6 +95,22 @@ export default function MemoriesPage() {
     }
   };
 
+  const handleSubmitTimeline = async (timelineData: any) => {
+    if (editingTimeline) {
+      await updateTimelineEvent(editingTimeline.id, timelineData);
+    } else {
+      await addTimelineEvent(timelineData);
+    }
+    setShowTimelineForm(false);
+    setEditingTimeline(null);
+  };
+
+  const handleDeleteTimeline = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this timeline event?')) {
+      await deleteTimelineEvent(id);
+    }
+  };
+
   const getMemoryTypeIcon = (type: string) => {
     switch (type) {
       case 'photo': return <Camera className="h-4 w-4" />;
@@ -97,6 +127,22 @@ export default function MemoriesPage() {
       case 'special': return 'bg-pink-100 text-pink-800';
       default: return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case 'milestone': return 'bg-green-50 text-green-700 border-green-200';
+      case 'memory': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'achievement': return 'bg-purple-50 text-purple-700 border-purple-200';
+      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+    }
+  };
+
+  const getUserInitials = (eventTitle: string) => {
+    // Simple logic for demo - in real app this would be based on actual user data
+    if (eventTitle.toLowerCase().includes('richmond')) return 'R';
+    if (eventTitle.toLowerCase().includes('both') || eventTitle.toLowerCase().includes('we')) return 'RE';
+    return 'E'; // Default to Edwina
   };
 
   if (loading) {
@@ -131,90 +177,123 @@ export default function MemoriesPage() {
 
         <TabsContent value="timeline" className="space-y-6">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold">Timeline of Memories</h3>
-            <Button onClick={() => setShowMemoryForm(true)} className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-primary">Our Story Timeline</h3>
+            <Button 
+              onClick={() => setShowTimelineForm(true)} 
+              className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-full px-6"
+            >
               <Plus className="h-4 w-4" />
-              Add Memory
+              Add Timeline
             </Button>
           </div>
 
-          {showMemoryForm && (
-            <MemoryForm
-              memory={editingMemory}
-              onSubmit={handleSubmitMemory}
+          {showTimelineForm && (
+            <TimelineForm
+              event={editingTimeline}
+              onSubmit={handleSubmitTimeline}
               onCancel={() => {
-                setShowMemoryForm(false);
-                setEditingMemory(null);
+                setShowTimelineForm(false);
+                setEditingTimeline(null);
               }}
             />
           )}
 
-          <div className="space-y-4">
-            {memories.length === 0 ? (
+          <div className="relative">
+            {timelineEvents.length === 0 ? (
               <Card className="glass-card">
                 <CardContent className="flex flex-col items-center justify-center py-12">
-                  <Camera className="h-12 w-12 text-muted-foreground mb-4" />
+                  <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
                   <p className="text-muted-foreground text-center">
-                    No memories added yet. Start building your timeline!
+                    No timeline events yet. Start building your story!
                   </p>
                 </CardContent>
               </Card>
             ) : (
-              memories.map(memory => (
-                <Card key={memory.id} className="glass-card">
-                  <CardHeader className="pb-3">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <CardTitle className="text-lg">{memory.title}</CardTitle>
-                          <Badge className={getMemoryTypeColor(memory.memory_type)}>
-                            {getMemoryTypeIcon(memory.memory_type)}
-                            {memory.memory_type}
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            {new Date(memory.date).toLocaleDateString()}
-                          </div>
-                          {memory.location && (
-                            <div className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
-                              {memory.location}
-                            </div>
-                          )}
+              <div className="space-y-6">
+                {timelineEvents.map((event, index) => (
+                  <div key={event.id} className="relative">
+                    {/* Timeline line */}
+                    {index !== timelineEvents.length - 1 && (
+                      <div className="absolute left-4 top-8 bottom-0 w-0.5 bg-border"></div>
+                    )}
+                    
+                    <div className="flex gap-4">
+                      {/* Timeline dot */}
+                      <div className="relative z-10">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                          <div className="w-3 h-3 bg-white rounded-full"></div>
                         </div>
                       </div>
-                      <div className="flex gap-1">
-                        <Button variant="ghost" size="sm" onClick={() => {
-                          setEditingMemory(memory);
-                          setShowMemoryForm(true);
-                        }}>
-                          <Edit2 className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm" onClick={() => handleDeleteMemory(memory.id)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                      
+                      {/* Event card */}
+                      <div className="flex-1">
+                        <Card className="glass-card border-l-4 border-l-primary">
+                          <CardContent className="p-6">
+                            <div className="flex justify-between items-start mb-4">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-2">
+                                  <h4 className="text-lg font-semibold text-primary">{event.title}</h4>
+                                  <Badge variant="outline" className={getCategoryColor(event.category)}>
+                                    {event.category}
+                                  </Badge>
+                                </div>
+                                
+                                {event.description && (
+                                  <p className="text-muted-foreground mb-3">{event.description}</p>
+                                )}
+                                
+                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                  <MapPin className="h-4 w-4" />
+                                  <span>Sunset Restaurant</span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-center gap-3">
+                                <div className="text-right">
+                                  <div className="text-sm font-medium text-muted-foreground">
+                                    {new Date(event.date).toLocaleDateString()}
+                                  </div>
+                                  <div className="flex items-center gap-1 justify-end mt-1">
+                                    <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-xs font-medium">
+                                      {getUserInitials(event.title)}
+                                    </div>
+                                    <span className="text-xs text-muted-foreground">
+                                      {getUserInitials(event.title) === 'RE' ? 'Both' : 
+                                       getUserInitials(event.title) === 'R' ? 'Richmond' : 'Edwina'}
+                                    </span>
+                                  </div>
+                                </div>
+                                
+                                <div className="flex gap-1 ml-4">
+                                  <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    onClick={() => {
+                                      setEditingTimeline(event);
+                                      setShowTimelineForm(true);
+                                    }}
+                                    className="h-8 w-8 p-0 hover:bg-muted"
+                                  >
+                                    <Edit2 className="h-4 w-4" />
+                                  </Button>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    onClick={() => handleDeleteTimeline(event.id)}
+                                    className="h-8 w-8 p-0 hover:bg-muted"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
-                  </CardHeader>
-                  
-                  <CardContent>
-                    {memory.photo_url && (
-                      <div className="mb-4">
-                        <img 
-                          src={memory.photo_url} 
-                          alt={memory.title}
-                          className="w-full h-48 object-cover rounded-lg"
-                        />
-                      </div>
-                    )}
-                    {memory.description && (
-                      <p className="text-sm text-muted-foreground">{memory.description}</p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </TabsContent>
