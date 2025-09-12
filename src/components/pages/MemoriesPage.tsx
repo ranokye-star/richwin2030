@@ -3,13 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Edit2, Trash2, Camera, Heart, Calendar, MapPin, BookOpen, User } from "lucide-react";
+import { Plus, Edit2, Trash2, Camera, Heart, Calendar, MapPin, BookOpen, User, Image } from "lucide-react";
 import { useMemories } from "@/hooks/useMemories";
 import { useTimeline } from "@/hooks/useTimeline";
+import { usePhotos } from "@/hooks/usePhotos";
 import MemoryForm from "@/components/forms/MemoryForm";
 import LoveLetterForm from "@/components/forms/LoveLetterForm";
 import JournalEntryForm from "@/components/forms/JournalEntryForm";
 import TimelineForm from "@/components/forms/TimelineForm";
+import PhotoUploadForm from "@/components/forms/PhotoUploadForm";
 
 export default function MemoriesPage() {
   const { 
@@ -35,17 +37,26 @@ export default function MemoriesPage() {
     updateTimelineEvent,
     deleteTimelineEvent
   } = useTimeline();
+
+  const {
+    photos,
+    loading: photosLoading,
+    uploading,
+    uploadPhoto,
+    deletePhoto
+  } = usePhotos();
   
   const [showMemoryForm, setShowMemoryForm] = useState(false);
   const [showLetterForm, setShowLetterForm] = useState(false);
   const [showJournalForm, setShowJournalForm] = useState(false);
   const [showTimelineForm, setShowTimelineForm] = useState(false);
+  const [showPhotoForm, setShowPhotoForm] = useState(false);
   const [editingMemory, setEditingMemory] = useState(null);
   const [editingLetter, setEditingLetter] = useState(null);
   const [editingJournal, setEditingJournal] = useState(null);
   const [editingTimeline, setEditingTimeline] = useState(null);
 
-  const loading = memoriesLoading || timelineLoading;
+  const loading = memoriesLoading || timelineLoading || photosLoading;
 
   const handleSubmitMemory = async (memoryData: any) => {
     if (editingMemory) {
@@ -111,6 +122,16 @@ export default function MemoriesPage() {
     }
   };
 
+  const handlePhotoUpload = async (file: File, caption?: string) => {
+    await uploadPhoto(file, caption);
+  };
+
+  const handleDeletePhoto = async (fileName: string) => {
+    if (window.confirm('Are you sure you want to delete this photo?')) {
+      await deletePhoto(fileName);
+    }
+  };
+
   const getMemoryTypeIcon = (type: string) => {
     switch (type) {
       case 'photo': return <Camera className="h-4 w-4" />;
@@ -169,8 +190,9 @@ export default function MemoriesPage() {
       </div>
 
       <Tabs defaultValue="timeline" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="timeline">Our Story Timeline</TabsTrigger>
+          <TabsTrigger value="gallery">Photo Gallery</TabsTrigger>
           <TabsTrigger value="letters">Love Letters</TabsTrigger>
           <TabsTrigger value="journal">Joint Journal</TabsTrigger>
         </TabsList>
@@ -294,6 +316,67 @@ export default function MemoriesPage() {
                   </div>
                 ))}
               </div>
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="gallery" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">Photo Gallery</h3>
+            <Button 
+              onClick={() => setShowPhotoForm(true)} 
+              className="flex items-center gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Upload Photo
+            </Button>
+          </div>
+
+          {showPhotoForm && (
+            <PhotoUploadForm
+              onUpload={handlePhotoUpload}
+              uploading={uploading}
+              onCancel={() => setShowPhotoForm(false)}
+            />
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {photos.length === 0 ? (
+              <Card className="glass-card col-span-full">
+                <CardContent className="flex flex-col items-center justify-center py-12">
+                  <Image className="h-12 w-12 text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground text-center">
+                    No photos uploaded yet. Start building your gallery!
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              photos.map(photo => (
+                <Card key={photo.id} className="glass-card overflow-hidden group">
+                  <div className="relative">
+                    <img 
+                      src={photo.url} 
+                      alt={photo.caption || 'Photo'}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 flex items-center justify-center">
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleDeletePhoto(photo.name)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  {photo.caption && (
+                    <CardContent className="p-3">
+                      <p className="text-sm text-muted-foreground">{photo.caption}</p>
+                    </CardContent>
+                  )}
+                </Card>
+              ))
             )}
           </div>
         </TabsContent>
