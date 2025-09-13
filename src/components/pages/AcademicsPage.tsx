@@ -141,7 +141,7 @@ export default function AcademicsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 gold-accent">
             <GraduationCap className="h-6 w-6" />
-            Edwina's Study Timetable
+            Edwina's School Timetable
           </CardTitle>
           <CardDescription>Nursing Degree Program Schedule</CardDescription>
         </CardHeader>
