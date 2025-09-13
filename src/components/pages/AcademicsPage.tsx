@@ -20,38 +20,42 @@ interface AcademicGoal {
   milestones: string[];
 }
 
-// Edwina's study timetable data
+// Edwina's personal evening study timetable data
 const timetableData = [
+  {
+    day: 'SUNDAY',
+    courses: [
+      { course: 'Tools & Methods for Teaching Nursing', time: '8:00PM-10:00PM', lecturer: 'for Monday classes' },
+      { course: 'Curriculum Development in Nursing Education', time: '10:00PM-11:00PM', lecturer: 'for Monday classes' }
+    ]
+  },
   {
     day: 'MONDAY',
     courses: [
-      { course: 'Tools & Methods for Teaching Nursing', time: '10:00AM-12:00PM', lecturer: 'MRS. PEASAH' },
-      { course: 'Curriculum Development in Nursing Education', time: '1:00PM-3:00PM', lecturer: 'MR. VINCENT AKORLI' }
+      { course: 'Project Work I (review & prep)', time: '8:00PM-10:00PM', lecturer: 'for Tuesday classes' },
+      { course: 'Plan/Notes for Meeting with Project Supervisors', time: '10:00PM-11:00PM', lecturer: 'for Tuesday classes' }
     ]
   },
   {
     day: 'TUESDAY',
     courses: [
-      { course: 'Project Work I', time: '8:00AM-10:00AM', lecturer: 'MRS. LEONORA OFORI-OTENG' },
-      { course: 'MEETING WITH PROJECT WORK SUPERVISORS', time: '', lecturer: '' }
+      { course: 'Biostatistics (review next topic)', time: '8:00PM-10:00PM', lecturer: 'for Wednesday classes' },
+      { course: 'Nursing Seminar (prepare presentation/notes)', time: '10:00PM-11:00PM', lecturer: 'for Wednesday classes' }
     ]
   },
   {
     day: 'WEDNESDAY',
     courses: [
-      { course: 'Biostatistics', time: '11:00AM-1:00PM', lecturer: 'MR. ADJOLOLO' },
-      { course: 'Nursing Seminar', time: '2:00PM-4:00PM', lecturer: 'Dr. JOAN AGYEMAN' }
+      { course: 'Nursing Practical (review skills / procedures)', time: '8:00PM-10:00PM', lecturer: 'for Thursday classes' },
+      { course: 'Nursing Practical (simulation / checklist practice)', time: '10:00PM-11:00PM', lecturer: 'for Thursday classes' }
     ]
   },
   {
     day: 'THURSDAY',
     courses: [
-      { course: 'Nursing Practical', time: '8:00AM-11:00AM', lecturer: 'MR. OPOKU & MAD. ARABA' }
+      { course: 'Revise difficult topics from the week', time: '8:00PM-10:00PM', lecturer: 'catch up / prep for next week' },
+      { course: 'Work on Project Work / Assignments', time: '10:00PM-11:00PM', lecturer: 'catch up / prep for next week' }
     ]
-  },
-  {
-    day: 'FRIDAY',
-    courses: []
   }
 ];
 
@@ -143,7 +147,7 @@ export default function AcademicsPage() {
             <GraduationCap className="h-6 w-6" />
             Edwina's School Timetable
           </CardTitle>
-          <CardDescription>Nursing Degree Program Schedule</CardDescription>
+          <CardDescription>Personal Evening Study Schedule</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
