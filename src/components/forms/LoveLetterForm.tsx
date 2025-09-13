@@ -28,6 +28,7 @@ export default function LoveLetterForm({ letter, onSubmit, onCancel }: LoveLette
     from_user_id: 'richmond',
     to_user_id: 'edwina'
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (letter) {
@@ -42,13 +43,20 @@ export default function LoveLetterForm({ letter, onSubmit, onCancel }: LoveLette
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit(formData);
-    setFormData({
-      title: '',
-      content: '',
-      from_user_id: 'richmond',
-      to_user_id: 'edwina'
-    });
+    if (!formData.title.trim() || !formData.content.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      await onSubmit(formData);
+      setFormData({
+        title: '',
+        content: '',
+        from_user_id: 'richmond',
+        to_user_id: 'edwina'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -116,9 +124,9 @@ export default function LoveLetterForm({ letter, onSubmit, onCancel }: LoveLette
           </div>
 
           <div className="flex gap-2">
-            <Button type="submit" className="flex items-center gap-2">
+            <Button type="submit" className="flex items-center gap-2" disabled={isSubmitting || !formData.title.trim() || !formData.content.trim()}>
               <Save className="h-4 w-4" />
-              {letter ? 'Update Letter' : 'Save Letter'}
+              {isSubmitting ? 'Saving...' : letter ? 'Update Letter' : 'Save Letter'}
             </Button>
             <Button type="button" variant="outline" onClick={onCancel}>
               <X className="h-4 w-4" />

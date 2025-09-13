@@ -679,6 +679,45 @@ export type Database = {
         }
         Relationships: []
       }
+      weekly_tasks: {
+        Row: {
+          created_at: string
+          due_date: string | null
+          id: string
+          priority: string | null
+          status: string
+          task_description: string | null
+          task_title: string
+          updated_at: string
+          user_name: string
+          week_of: string
+        }
+        Insert: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          priority?: string | null
+          status?: string
+          task_description?: string | null
+          task_title: string
+          updated_at?: string
+          user_name: string
+          week_of: string
+        }
+        Update: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          priority?: string | null
+          status?: string
+          task_description?: string | null
+          task_title?: string
+          updated_at?: string
+          user_name?: string
+          week_of?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
