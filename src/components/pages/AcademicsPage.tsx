@@ -20,41 +20,68 @@ interface AcademicGoal {
   milestones: string[];
 }
 
-// Edwina's personal evening study timetable data
-const timetableData = [
+// Evening Study Timetable data
+const eveningStudyData = [
   {
-    day: 'SUNDAY',
+    day: 'Sunday (for Monday classes)',
+    slot1: 'Tools & Methods for Teaching Nursing',
+    slot2: 'Curriculum Development in Nursing Education'
+  },
+  {
+    day: 'Monday (for Tuesday classes)',
+    slot1: 'Project Work I (Review / prep materials)',
+    slot2: 'Plan questions / notes for Meeting with Project Work Supervisors'
+  },
+  {
+    day: 'Tuesday (for Wednesday classes)',
+    slot1: 'Biostatistics',
+    slot2: 'Nursing Seminar (prep/reading)'
+  },
+  {
+    day: 'Wednesday (for Thursday classes)',
+    slot1: 'Nursing Practical (review procedures / skills)',
+    slot2: 'Nursing Practical (practice scenarios / notes)'
+  },
+  {
+    day: 'Thursday (revision day)',
+    slot1: 'Revise Tools & Methods & Curriculum Development',
+    slot2: 'Revise Biostatistics & Nursing Seminar or catch-up assignments'
+  }
+];
+
+// School Timetable data
+const schoolTimetableData = [
+  {
+    day: 'Monday',
     courses: [
-      { course: 'Tools & Methods for Teaching Nursing', time: '8:00PM-10:00PM', lecturer: 'for Monday classes' },
-      { course: 'Curriculum Development in Nursing Education', time: '10:00PM-11:00PM', lecturer: 'for Monday classes' }
+      { course: 'Tools & Methods for Teaching Nursing', time: '10:00 AM – 12:00 PM', lecturer: 'Mrs. Peasah' },
+      { course: 'Curriculum Development in Nursing Education', time: '1:00 PM – 3:00 PM', lecturer: 'Mr. Vincent Akorli' }
     ]
   },
   {
-    day: 'MONDAY',
+    day: 'Tuesday',
     courses: [
-      { course: 'Project Work I (review & prep)', time: '8:00PM-10:00PM', lecturer: 'for Tuesday classes' },
-      { course: 'Plan/Notes for Meeting with Project Supervisors', time: '10:00PM-11:00PM', lecturer: 'for Tuesday classes' }
+      { course: 'Project Work I', time: '8:00 AM – 10:00 AM', lecturer: 'Mrs. Leonora Ofori-Oteng' },
+      { course: 'Meeting with Project Work Supervisors', time: '(No fixed time stated)', lecturer: '(Supervisors)' }
     ]
   },
   {
-    day: 'TUESDAY',
+    day: 'Wednesday',
     courses: [
-      { course: 'Biostatistics (review next topic)', time: '8:00PM-10:00PM', lecturer: 'for Wednesday classes' },
-      { course: 'Nursing Seminar (prepare presentation/notes)', time: '10:00PM-11:00PM', lecturer: 'for Wednesday classes' }
+      { course: 'Biostatistics', time: '11:00 AM – 1:00 PM', lecturer: 'Mr. Adjololo' },
+      { course: 'Nursing Seminar', time: '2:00 PM – 4:00 PM', lecturer: 'Dr. Joan Agyeman' }
     ]
   },
   {
-    day: 'WEDNESDAY',
+    day: 'Thursday',
     courses: [
-      { course: 'Nursing Practical (review skills / procedures)', time: '8:00PM-10:00PM', lecturer: 'for Thursday classes' },
-      { course: 'Nursing Practical (simulation / checklist practice)', time: '10:00PM-11:00PM', lecturer: 'for Thursday classes' }
+      { course: 'Nursing Practical', time: '8:00 AM – 11:00 AM', lecturer: 'Mr. Opoku & Madam Araba' }
     ]
   },
   {
-    day: 'THURSDAY',
+    day: 'Friday',
     courses: [
-      { course: 'Revise difficult topics from the week', time: '8:00PM-10:00PM', lecturer: 'catch up / prep for next week' },
-      { course: 'Work on Project Work / Assignments', time: '10:00PM-11:00PM', lecturer: 'catch up / prep for next week' }
+      { course: '(No classes scheduled)', time: '', lecturer: '' }
     ]
   }
 ];
@@ -140,74 +167,115 @@ export default function AcademicsPage() {
         <p className="text-lg text-muted-foreground">Track your educational journey and study schedule</p>
       </div>
 
-      {/* Edwina's Study Timetable */}
-      <Card className="romantic-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 gold-accent">
-            <GraduationCap className="h-6 w-6" />
-            Edwina's School Timetable
-          </CardTitle>
-          <CardDescription>Personal Evening Study Schedule</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-semibold text-primary">DAY</TableHead>
-                  <TableHead className="font-semibold text-primary">COURSE</TableHead>
-                  <TableHead className="font-semibold text-primary">TIME</TableHead>
-                  <TableHead className="font-semibold text-primary">LECTURER</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {timetableData.map((dayData) => {
-                  if (dayData.courses.length === 0) {
-                    return (
-                      <TableRow key={dayData.day}>
-                        <TableCell className="font-medium text-primary">{dayData.day}</TableCell>
-                        <TableCell className="text-muted-foreground italic">No classes scheduled</TableCell>
-                        <TableCell>-</TableCell>
-                        <TableCell>-</TableCell>
-                      </TableRow>
-                    );
-                  }
-                  
-                  return dayData.courses.map((course, index) => (
-                    <TableRow key={`${dayData.day}-${index}`}>
-                      <TableCell className={`font-medium text-primary ${index === 0 ? '' : 'border-t-0'}`}>
-                        {index === 0 ? dayData.day : ''}
+      {/* Two-Column Timetable Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left Column - Evening Study Timetable */}
+        <Card className="romantic-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 gold-accent">
+              <Clock className="h-6 w-6" />
+              Edwina's Evening Study Timetable
+            </CardTitle>
+            <CardDescription>Personal Evening Study Schedule (9:00 PM - 11:00 PM)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="font-semibold text-primary min-w-[140px]">Day</TableHead>
+                    <TableHead className="font-semibold text-primary">9:00 pm – 10:00 pm</TableHead>
+                    <TableHead className="font-semibold text-primary">10:00 pm – 11:00 pm</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {eveningStudyData.map((dayData, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium text-primary text-sm">
+                        {dayData.day}
                       </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
-                          <span className="font-medium">{course.course}</span>
+                      <TableCell className="text-sm">
+                        <div className="flex items-start gap-2">
+                          <BookOpen className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                          <span>{dayData.slot1}</span>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        {course.time && (
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-muted-foreground" />
-                            <span>{course.time}</span>
-                          </div>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {course.lecturer && (
-                          <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">{course.lecturer}</span>
-                          </div>
-                        )}
+                      <TableCell className="text-sm">
+                        <div className="flex items-start gap-2">
+                          <BookOpen className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                          <span>{dayData.slot2}</span>
+                        </div>
                       </TableCell>
                     </TableRow>
-                  ));
-                })}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Right Column - School Timetable */}
+        <Card className="romantic-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 gold-accent">
+              <GraduationCap className="h-6 w-6" />
+              Edwina's School Timetable
+            </CardTitle>
+            <CardDescription>Weekly Class Schedule</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="font-semibold text-primary">Day</TableHead>
+                    <TableHead className="font-semibold text-primary">Course</TableHead>
+                    <TableHead className="font-semibold text-primary">Time</TableHead>
+                    <TableHead className="font-semibold text-primary">Lecturer(s)</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {schoolTimetableData.map((dayData) => {
+                    return dayData.courses.map((course, index) => (
+                      <TableRow key={`${dayData.day}-${index}`}>
+                        <TableCell className={`font-medium text-primary ${index === 0 ? '' : 'border-t-0'}`}>
+                          {index === 0 ? dayData.day : ''}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {course.course !== '(No classes scheduled)' ? (
+                            <div className="flex items-start gap-2">
+                              <BookOpen className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                              <span className="font-medium">{course.course}</span>
+                            </div>
+                          ) : (
+                            <span className="text-muted-foreground italic">{course.course}</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {course.time && course.time !== '' && (
+                            <div className="flex items-center gap-2">
+                              <Clock className="h-4 w-4 text-muted-foreground" />
+                              <span>{course.time}</span>
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {course.lecturer && course.lecturer !== '' && (
+                            <div className="flex items-center gap-2">
+                              <Users className="h-4 w-4 text-muted-foreground" />
+                              <span className="font-medium">{course.lecturer}</span>
+                            </div>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ));
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Academic Goals Section */}
       <div className="space-y-6">
